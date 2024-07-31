@@ -1,0 +1,7 @@
+---
+dotfiles_git_repo: https://github.com/lorobert42/dotfiles
+dotfiles_version: main
+dotfiles_home_path: /home/{{ ansible_user }}
+dotfiles_folders:
+  - nvim
+  - oh-my-posh

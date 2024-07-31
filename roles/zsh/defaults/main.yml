@@ -1,0 +1,4 @@
+---
+zsh_packages_desired_state: latest
+zsh_packages:
+  - zsh

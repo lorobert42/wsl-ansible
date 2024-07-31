@@ -1,0 +1,31 @@
+---
+- name: Get dotfiles from GitHub
+  ansible.builtin.git:
+    repo: "{{ dotfiles_git_repo }}"
+    dest: "/home/{{ ansible_user }}/dotfiles"
+    version: "{{ dotfiles_version }}"
+  become: false
+- name: Stow config dotfiles
+  ansible.builtin.command:
+    argv:
+      - /usr/bin/stow
+      - --verbose=2
+      - --target={{ dotfiles_home_path }}
+      - --dir={{ dotfiles_home_path }}/dotfiles
+      - "{{ item }}"
+  loop: "{{ dotfiles_folders }}"
+  become: false
+  register: stow_res
+  changed_when: stow_res.stderr is search("LINK:")
+- name: Stow zsh dotfiles
+  ansible.builtin.command:
+    argv:
+      - /usr/bin/stow
+      - --verbose=2
+      - --target={{ dotfiles_home_path }}
+      - --dir={{ dotfiles_home_path }}/dotfiles
+      - --dotfiles
+      - zsh
+  become: false
+  register: stow_res
+  changed_when: stow_res.stderr is search("LINK:")

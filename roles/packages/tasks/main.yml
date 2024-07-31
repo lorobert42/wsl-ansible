@@ -1,0 +1,41 @@
+---
+- name: Update debian packages
+  ansible.builtin.package:
+    upgrade: true
+    autoremove: true
+    update_cache: true
+    cache_valid_time: 86400
+  ignore_errors: "{{ ansible_check_mode }}"
+- name: Install debian packages
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: "{{ packages_desired_state }}"
+  loop: "{{ packages_debian }}"
+  ignore_errors: "{{ ansible_check_mode }}"
+- name: Install pipx packages
+  community.general.pipx:
+    name: "{{ item }}"
+    state: "{{ packages_desired_state }}"
+    install_deps: true
+  loop: "{{ packages_pipx }}"
+  become: false
+  ignore_errors: "{{ ansible_check_mode }}"
+- name: Install brew packages
+  block:
+    # - name: Install brew packages | taps
+    #   community.general.homebrew_tap:
+    #     tap: "{{ item }}"
+    #     state: present
+    #   loop: "{{ packages_homebrew_taps }}"
+    #   become: false
+    #   environment:
+    #     PATH: "/home/{{ ansible_user }}/.linuxbrew/bin:{{ lookup('env', 'PATH') }}"
+    - name: Install brew packages | formula
+      community.general.homebrew:
+        name: "{{ item }}"
+        state: present
+        path: "/home/{{ ansible_user }}/.linuxbrew/bin"
+      loop: "{{ packages_homebrew_formula }}"
+      become: false
+      environment:
+        PATH: "/home/linuxbrew/.linuxbrew/bin:{{ lookup('env', 'PATH') }}"

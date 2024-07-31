@@ -1,0 +1,12 @@
+---
+- name: Include setup.yml tasks
+  ansible.builtin.include_tasks:
+    file: setup.yml
+
+- name: Install Ansible packages
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: "{{ ansible_packages_desired_state }}"
+    # allow_downgrade: true
+  loop: "{{ ansible_packages }}"
+  ignore_errors: "{{ ansible_check_mode }}"

@@ -1,0 +1,11 @@
+---
+- name: Install zsh packages
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: "{{ zsh_packages_desired_state }}"
+  loop: "{{ zsh_packages }}"
+  ignore_errors: "{{ ansible_check_mode }}"
+- name: Ensure zsh is the default shell
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    shell: /usr/bin/zsh

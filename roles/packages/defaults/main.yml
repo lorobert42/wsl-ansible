@@ -1,0 +1,28 @@
+---
+packages_desired_state: latest
+packages_debian:
+  - apt-transport-https
+  - bat
+  - build-essential
+  - eza
+  - jq
+  - maven
+  - openjdk-21-jdk
+  - pipx
+  - python3-pip
+  - python3-venv
+  - ripgrep
+  - stow
+  - unzip
+  - yamllint
+  - neovim
+packages_pipx:
+  - ansible-lint
+  - checkov
+  - pre-commit
+packages_homebrew_taps:
+packages_homebrew_formula:
+  - fzf
+  - gitleaks
+  - lazygit
+  - oh-my-posh

@@ -1,0 +1,22 @@
+---
+- name: Ensure directory exists for /etc/apt/keyrings
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: '0755'
+
+- name: Add Ansible repository
+  block:
+    - name: Add Ansible repository | apt key
+      ansible.builtin.get_url:
+        url: "{{ ansible_gpg_key }}"
+        dest: /etc/apt/keyrings/ansible-archive-keyring.asc
+        mode: '0644'
+        force: false
+
+    - name: Add Ansible repository | apt source
+      ansible.builtin.apt_repository:
+        repo: "{{ ansible_repo }}"
+        state: "{{ ansible_repo_desired_state }}"
+        filename: "{{ ansible_repo_filename }}"
+        update_cache: true

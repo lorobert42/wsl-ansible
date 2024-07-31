@@ -1,0 +1,8 @@
+---
+ansible_gpg_key: https://keyserver.ubuntu.com/pks/lookup?fingerprint=on&op=get&search=0x6125E2A8C77F2818FB7BD15B93C4A3FD7BB9C367
+ansible_repo: "deb [signed-by=/etc/apt/keyrings/ansible-archive-keyring.asc] http://ppa.launchpad.net/ansible/ansible/ubuntu {{ ansible_lsb['codename'] }} main"
+ansible_repo_filename: ansible
+ansible_repo_desired_state: present
+ansible_packages_desired_state: latest
+ansible_packages:
+  - ansible
